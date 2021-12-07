@@ -12,8 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import cloudinary
-import cloudinary.uploader
-import cloudinary.api
+import cloudinary_storage
 from decouple import config
 
 
@@ -134,15 +133,22 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+# cloud_name= config('CLOUDINARY_CLOUD_NAME')
+# api_key = config('CLOUDINARY_API_KEY')
+# api_secret = config('CLOUDINARY_API_SECRET')
+# CLOUDINARY_STORAGE = {
+#     'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME') ,
+#     'API_KEY': config('CLOUDINARY_API_KEY'),
+#     'API_SECRET': config('CLOUDINARY_API_SECRET') ,
+# }
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'joywn',
+    'API_KEY': '347794989465727',
+    'API_SECRET': 'Jy7sejUxWne3qJs2xmhMhj8p6Eg',
+}
 
-cloudinary.config( 
-  cloud_name = config('CLOUDINARY_NAME'), 
-  api_key = config('CLOUDINARY_API_KEY'), 
-  api_secret = config('CLOUDINARY_API_SECRET') 
-)
 MEDIA_URL = '/media/'  # or any prefix you choose
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 

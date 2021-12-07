@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from .forms import RegistrationForm
+from .forms import RegistrationForm,ImageUploadForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from .models import Profile
@@ -29,4 +29,17 @@ def signup(request):
     title = 'Create Account'
     return render(request, 'signup.html', {'form': form,'title':title})
 
+def upload_image(request):
+    current_user = request.user.profile
     
+    if request.method == 'POST':
+        form = ImageUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = form.save(commit=False)
+            image.profile = current_user
+            image.save()
+        return redirect('index')
+
+    else:
+        form = ImageUploadForm()
+    return render(request, 'upload_image.html', {"form": form})
