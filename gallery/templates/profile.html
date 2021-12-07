@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1 class="text-center">My Profile</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <ul>
+                {% if profile.profile_photo %}
+                <li><img src="{{profile.profile_photo.url}}" alt="Profile Photo"></li>
+                {% endif %}
+                <li>{{user.username}}</li>
+                <li>{{profile.first_name}}</li>
+                <li>{{profile.last_name}}</li>
+                <li>{{profile.bio}}
+
+            </ul>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <ul>
+
+                {% for image in images %}
+                <li><img src="{{image.image.url}}" alt="{{image.image_name}}"></li>
+                {% endfor %}
+
+            </ul>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+
+</div>
+{% endblock %}

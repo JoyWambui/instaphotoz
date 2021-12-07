@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from .forms import RegistrationForm,ImageUploadForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
-from .models import Profile
+from .models import Profile, Image
 
 
 @login_required(login_url='login')
@@ -29,6 +29,7 @@ def signup(request):
     title = 'Create Account'
     return render(request, 'signup.html', {'form': form,'title':title})
 
+@login_required(login_url='login')
 def upload_image(request):
     current_user = request.user.profile
     
@@ -43,3 +44,9 @@ def upload_image(request):
     else:
         form = ImageUploadForm()
     return render(request, 'upload_image.html', {"form": form})
+
+@login_required(login_url='login')
+def profile(request, user):
+    profile = Profile.objects.get(user=user)
+    images = Image.objects.filter(profile__user=user).all()
+    return render(request, 'profile.html', {'profile': profile, 'images':images})
