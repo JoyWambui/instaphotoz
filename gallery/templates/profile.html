@@ -66,6 +66,13 @@
         <div class="col-sm-2"></div>
     </div>
     <hr class="bg-dark">
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <a class="btn btn-success btn-lg text-center" href="{%url 'uploadImage'%}" role="button" style="margin: 0 29%;"><span><i class='fas fa-plus' style='font-size:1rem; border: #fff solid 0.2rem; border-radius: 50%; padding: 0.3rem;'></i></span> Upload Image</a>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
     {%if images%}
     <div class="row">
         {%for image in images%}
