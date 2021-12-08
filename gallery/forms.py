@@ -40,3 +40,12 @@ class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['profile_photo','first_name', 'last_name', 'bio']
+        
+class UpdateImageForm(forms.ModelForm):
+    image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))
+    image_caption= forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}))
+    image_name = forms.CharField(label='Image name', max_length=50)
+
+    class Meta:
+        model= Image
+        fields= ['image', 'image_name', 'image_caption']

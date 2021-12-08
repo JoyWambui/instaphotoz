@@ -45,6 +45,7 @@
                     <p class="card-text"><strong>@{{image.author}}</strong></p>
                     <p class="card-text"><strong>Name:</strong> {{image.image_name}}</p>
                     <p class="card-text"><strong>Caption:</strong> ...{{image.image_caption}}</p>
+                    <a class="btn btn-info btn-lg text-center" href="{%url 'updateImage' image.id%}" role="button" style="margin: 0 29%;">Update Image</a>
                     <hr class="bg-dark">
                     <h3 class="text-center" style="text-decoration: underline;"><strong>Comments</strong> </h3><br>
                     {%if comments%}

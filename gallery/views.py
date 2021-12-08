@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from .forms import RegistrationForm,ImageUploadForm,CommentForm,UpdateUserForm,UpdateProfileForm
+from .forms import RegistrationForm,ImageUploadForm,CommentForm,UpdateUserForm,UpdateProfileForm,UpdateImageForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from .models import Comment, Profile, Image
@@ -42,11 +42,26 @@ def upload_image(request):
             image = form.save(commit=False)
             image.author = current_user
             image.save()
-        return redirect('index')
+        return redirect('profile', id=current_user.id)
 
     else:
         form = ImageUploadForm()
     return render(request, 'upload_image.html', {"form": form})
+
+@login_required(login_url='login')
+def update_image(request, id):
+    got_image = Image.objects.get(id=id)
+    current_user = request.user.profile
+
+    if request.method == 'POST':
+        form = UpdateImageForm(request.POST, request.FILES, instance=got_image)
+        if form.is_valid():
+            form.save()
+        return redirect('profile', id=profile.id)
+
+    else:
+        form = ImageUploadForm(instance=got_image)
+    return render(request, 'update_image.html', {"form": form})
 
 @login_required(login_url='login')
 def profile(request, id):

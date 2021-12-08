@@ -14,6 +14,8 @@ urlpatterns= [
     path('image/<int:id>/',views.image, name='imageDetail'),
     path('image/<int:id>/like/', views.like, name='like'),
     path('image/<int:id>/unlike/', views.unlike, name='unlike'),
+    path('image/<int:id>/update/', views.update_image, name='updateImage'),
+
 
 
 ]
