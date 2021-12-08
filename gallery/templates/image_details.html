@@ -11,7 +11,23 @@
                 <li><img src="{{image.image.url}}" alt="{{image.image_name}}"></li>
                 <li>{{image.image_name}}</li>
                 <li>{{image.image_caption}}</li>
+                <li>Likes: {{count_likes}}</li>
             </ul>
+            {% if user == request.user %}
+            {% else %}
+            {% if liked %}
+            <form method="POST" action="{% url 'unlike' image.id %}">
+                {% csrf_token %}
+                <button class="btn btn-outline-danger" type=submit>UnLike</button>
+            </form>
+            {% else %}
+            <form method="POST" action="{% url 'like' image.id %}">
+                {% csrf_token %}
+                <button class="btn btn-outline-success" type=submit>Like</button>
+            </form>
+            {% endif %}
+            {% endif %}
+
         </div>
         <div class="col-sm-2"></div>
 

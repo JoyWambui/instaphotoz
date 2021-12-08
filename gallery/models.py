@@ -33,6 +33,7 @@ class Image(models.Model):
     image_name = models.CharField(max_length=30)
     image_caption = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    likes = models.ManyToManyField(User, blank=True, related_name='likes')
     
     def __str__(self):
         return self.image_name

@@ -11,5 +11,8 @@ urlpatterns= [
     path('profile/<int:id>/followers/add', views.AddFollower, name='addFollower'),
     path('profile/<int:id>/followers/delete', views.DeleteFollower, name='deleteFollower'),
     path('image/<int:id>/',views.image, name='imageDetail'),
+    path('image/<int:id>/like/', views.like, name='like'),
+    path('image/<int:id>/unlike/', views.unlike, name='unlike'),
+
 
 ]

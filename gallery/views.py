@@ -86,6 +86,7 @@ def DeleteFollower(request, id):
 @login_required(login_url='login')
 def image(request, id):
     image = Image.objects.get(id=id)
+    user = image.author
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -97,6 +98,32 @@ def image(request, id):
 
     else:
         form = CommentForm()
+        
+    likes = image.likes.all()
+    liked = None
+    for like in likes:
+        if like == request.user:
+            liked = True
+            break
+        else:
+            liked = False
+    
+    count_likes = len(likes)
+
     comments= Comment.objects.filter(comment_image=image).order_by('-created')
     
-    return render(request, 'image_details.html', {'form': form, 'image': image, 'comments': comments})
+    return render(request, 'image_details.html', {'form': form, 'image': image, 'comments': comments,'liked':liked,'count_likes':count_likes,'user':user})
+
+@login_required(login_url='login')
+def like(request,id):
+    image = Image.objects.get(id=id)
+    image.likes.add(request.user)
+
+    return redirect('imageDetail', id=id)
+
+@login_required(login_url='login')
+def unlike(request,id):
+    image = Image.objects.get(id=id)
+    image.likes.remove(request.user)
+
+    return redirect('imageDetail', id=id)
