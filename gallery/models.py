@@ -1,3 +1,6 @@
+from datetime import datetime
+from operator import mod
+from time import timezone
 from django.db import models
 from django.contrib.auth.models import User
 from tinymce import models as tinymce_models
@@ -34,8 +37,9 @@ class Image(models.Model):
     def __str__(self):
         return self.image_name
     
-# class FollowSystem(models.Model):
-#     followed = models.OneToOneField(Profile,related_name='profile_follower', on_delete=models.CASCADE, blank=True)  
-#     following = models.ManyToManyField(Profile, related_name='profile_following', on_delete=models.CASCADE, blank=True)
-    
-# Profile.add_to_class('following', models.ManyToManyField('self',through=FollowSystem,related_name='followers', symmetrical=False))     
+class Comment(models.Model):
+    '''Model that defines a comment '''
+    comment = tinymce_models.HTMLField()
+    comment_image = models.ForeignKey('Image', related_name='comment_image', on_delete=models.CASCADE )
+    comment_author = models.ForeignKey(User, related_name='comment_author', on_delete=models.CASCADE )
+    created = models.DateTimeField(default=datetime.now)

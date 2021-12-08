@@ -1,8 +1,8 @@
 from django.shortcuts import redirect, render
-from .forms import RegistrationForm,ImageUploadForm
+from .forms import RegistrationForm,ImageUploadForm,CommentForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
-from .models import Profile, Image
+from .models import Comment, Profile, Image
 
 
 @login_required(login_url='login')
@@ -40,7 +40,7 @@ def upload_image(request):
         form = ImageUploadForm(request.POST, request.FILES)
         if form.is_valid():
             image = form.save(commit=False)
-            image.profile = current_user
+            image.author = current_user
             image.save()
         return redirect('index')
 
@@ -82,3 +82,21 @@ def DeleteFollower(request, id):
     profile.followers.remove(request.user)
     
     return redirect('profile', id=id)
+
+@login_required(login_url='login')
+def image(request, id):
+    image = Image.objects.get(id=id)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.comment_author = request.user
+            comment.comment_image = image
+            comment.save()
+        return redirect('imageDetail', id=id)
+
+    else:
+        form = CommentForm()
+    comments= Comment.objects.filter(comment_image=image).order_by('-created')
+    
+    return render(request, 'image_details.html', {'form': form, 'image': image, 'comments': comments})

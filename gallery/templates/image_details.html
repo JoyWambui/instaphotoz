@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2"></div>
+
+        <div class="col-sm-8">
+            <ul>
+                <li><img src="{{image.image.url}}" alt="{{image.image_name}}"></li>
+                <li>{{image.image_name}}</li>
+                <li>{{image.image_caption}}</li>
+            </ul>
+        </div>
+        <div class="col-sm-2"></div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <form method="POST" class="form-group">
+                <div class="form-group"></div>
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-info btn-lg">Add Comment</button>
+            </form>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+    {%for comment in comments%}
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <p>{{comment.comment_author}}</p>
+            <p>{{comment.comment}}</p>
+            <p>Created {{comment.created|timesince}} ago.</p>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
