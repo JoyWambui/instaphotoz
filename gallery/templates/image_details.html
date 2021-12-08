@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{%load static%}
+{% block styles %}
+{{block.super}}
+<link rel="stylesheet" href="{% static 'css/image_details.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="container-fluid">
@@ -7,54 +12,68 @@
         <div class="col-sm-2"></div>
 
         <div class="col-sm-8">
-            <ul>
-                <li><img src="{{image.image.url}}" alt="{{image.image_name}}"></li>
-                <li>{{image.image_name}}</li>
-                <li>{{image.image_caption}}</li>
-                <li>Likes: {{count_likes}}</li>
-            </ul>
-            {% if user == request.user %}
-            {% else %}
-            {% if liked %}
-            <form method="POST" action="{% url 'unlike' image.id %}">
-                {% csrf_token %}
-                <button class="btn btn-outline-danger" type=submit>UnLike</button>
-            </form>
-            {% else %}
-            <form method="POST" action="{% url 'like' image.id %}">
-                {% csrf_token %}
-                <button class="btn btn-outline-success" type=submit>Like</button>
-            </form>
-            {% endif %}
-            {% endif %}
+            <div class="card" style="margin: 1rem;">
+                <img src="{{image.image.url}}" class="card-img-top" alt="{{image.image_name}}">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            {% if liked %}
+                            <form method="POST" action="{% url 'unlike' image.id %}">
+                                {% csrf_token %}
+                                <button style="background-color: transparent; border: none; box-shadow: none;"
+                                    type=submit><i class='fas fa-heart'
+                                        style="color: red ; font-size: 1.2rem; "></i><span><span> </span>
+                                        {{ count_likes}} </span></button>
+                            </form>
+                            {% else %}
+                            <form method="POST" action="{% url 'like' image.id %}">
+                                {% csrf_token %}
+                                <button style="background-color: transparent; border: none; box-shadow: none;"
+                                    type=submit><i class='far fa-heart' style="font-size: 1.2rem;"></i><span>
+                                        <span><span></span>{{count_likes }}</span></button>
+                            </form>
+                            {% endif %}
 
+                        </div>
+                        <div class="col-sm-6">
+                            <a href="#commentForm" id="comment"><i class='far fa-comment' id="iconComment"
+                                    style='font-size:1.2rem;'></i></a>
+                        </div>
+
+                    </div>
+                    <hr>
+                    <p class="card-text"><strong>@{{image.author}}</strong></p>
+                    <p class="card-text"><strong>Name:</strong> {{image.image_name}}</p>
+                    <p class="card-text"><strong>Caption:</strong> ...{{image.image_caption}}</p>
+                    <hr class="bg-dark">
+                    <h3 class="text-center" style="text-decoration: underline;"><strong>Comments</strong> </h3><br>
+                    {%if comments%}
+                    {%for comment in comments%}
+                    <div>
+                        <p><strong>Written by:</strong> {{comment.comment_author}}</p>
+                        <p>{{comment.comment}}</p>
+                        <p class="text-muted">Created {{comment.created|timesince}} ago.</p>
+                    </div><hr >
+                    {% endfor %}
+                    {%else%}
+                    <h4>No Comments</h4>
+                    {%endif%}
+                </div>
+            </div>
         </div>
         <div class="col-sm-2"></div>
-
     </div>
-
     <div class="row">
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
-            <form method="POST" class="form-group">
+            <form method="POST" class="form-group" id='commentForm'>
                 <div class="form-group"></div>
                 {% csrf_token %}
                 {{ form|crispy }}
-                <button type="submit" class="btn btn-info btn-lg">Add Comment</button>
+                <button type="submit" class="btn btn-info btn-lg" id="commentButton">Add Comment</button>
             </form>
         </div>
         <div class="col-sm-2"></div>
     </div>
-    {%for comment in comments%}
-    <div class="row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-8">
-            <p>{{comment.comment_author}}</p>
-            <p>{{comment.comment}}</p>
-            <p>Created {{comment.created|timesince}} ago.</p>
-        </div>
-        <div class="col-sm-2"></div>
-    </div>
-    {% endfor %}
 </div>
 {% endblock %}

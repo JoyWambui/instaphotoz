@@ -1,0 +1,14 @@
+#commentForm{
+    display: none;
+}
+a:link{
+    color: #000;
+}
+a:active{
+    color: #000;
+}a:visited{
+    color: #000;
+}
+a:hover  #iconComment:before  {
+  content: '\f27a';
+}

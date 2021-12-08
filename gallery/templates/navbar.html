@@ -1,4 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+{%if user.is_authenticated%}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="{%url 'index'%}"><i class='fas fa-camera'></i>
         InstaPhotoz</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
@@ -7,10 +8,11 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-            <a class="nav-link" href="#">Features</a>
+            <a class="nav-link" href="{%url 'index'%}"><span><i class='fas fa-home' style='font-size:1rem; color: #fff;'></i></span>Home</a>
+            <a class="nav-link" href="{%url 'profile' request.user.id%}"><span><i class='far fa-user-circle' style='font-size:1rem'></i></span><strong> Profile</strong></a>
             <a class="nav-link" href="#">Pricing</a>
-            <a class="nav-link disabled">Disabled</a>
+            <a class="nav-link " href="{%url 'logout'%}">Logout</a>
         </div>
     </div>
 </nav>
+{%endif%}

@@ -1,9 +1,29 @@
 {%extends 'base.html'%}
 
 {%block content%}
-<h1>Welcome</h1>
-<ul>
-    {%for image in images%}
-    <li><a href="{%url 'imageDetail' image.id%}"><img src="{{image.image.url}}" alt="{{image.image_name}}"></a></li>
-    {%endfor%}
+<div class="container-fluid">
+    {%if images%}
+    <div class="row">
+        {%for image in images%}
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <div class="card " style="margin: 1rem;">
+                <a href="{%url 'imageDetail' image.id%}"><img src="{{image.image.url}}" style=" object-fit: cover;"
+                        class="card-img-top" alt="{{image.image_name}}"></a>
+                <div class="card-body">
+                    <h5 class="card-title"><strong>@{{image.author}}</strong></h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+        {% endfor %}
+    </div>
+    {%else%}
+    <div class="row">
+        <h2 class="text-center">There Are No Images</h2>
+    </div>
+    {%endif%}
+
+</div>
+
 {%endblock%}
