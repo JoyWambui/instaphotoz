@@ -18,9 +18,24 @@
                 <li>{{user.username}}</li>
                 <li>{{profile.first_name}}</li>
                 <li>{{profile.last_name}}</li>
-                <li>{{profile.bio}}
+                <li>{{profile.bio}}</li>
+                <li>Followers: {{ count_followers }}</li>
 
             </ul>
+            {% if user == request.user %}
+            {% else %}
+            {% if is_following %}
+            <form method="POST" action="{% url 'deleteFollower' profile.id %}">
+                {% csrf_token %}
+                <button class="btn btn-outline-danger" type=submit>UnFollow</button>
+            </form>
+            {% else %}
+            <form method="POST" action="{% url 'addFollower' profile.id %}">
+                {% csrf_token %}
+                <button class="btn btn-outline-success" type=submit>Follow</button>
+            </form>
+            {% endif %}
+            {% endif %}
         </div>
         <div class="col-sm-2"></div>
     </div>

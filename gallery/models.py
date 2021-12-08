@@ -13,6 +13,8 @@ class Profile(models.Model):
     first_name = models.CharField(max_length=50,blank=True)
     last_name = models.CharField(max_length=50,blank=True)
     email = models.EmailField()
+    followers = models.ManyToManyField(User, blank=True, related_name='followers', symmetrical=False)
+    
     
     @receiver(post_save, sender=User)
     def save_profile(sender, instance, created, **kwargs):
@@ -27,9 +29,13 @@ class Image(models.Model):
     image = models.ImageField(upload_to='images/')
     image_name = models.CharField(max_length=30)
     image_caption = models.TextField()
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     
     def __str__(self):
         return self.image_name
-
-        
+    
+# class FollowSystem(models.Model):
+#     followed = models.OneToOneField(Profile,related_name='profile_follower', on_delete=models.CASCADE, blank=True)  
+#     following = models.ManyToManyField(Profile, related_name='profile_following', on_delete=models.CASCADE, blank=True)
+    
+# Profile.add_to_class('following', models.ManyToManyField('self',through=FollowSystem,related_name='followers', symmetrical=False))     

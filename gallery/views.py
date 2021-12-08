@@ -7,7 +7,10 @@ from .models import Profile, Image
 
 @login_required(login_url='login')
 def index(request):
-    return render(request, 'index.html')
+    logged_user = request.user
+    images = Image.objects.filter(author__profile__followers__in=[logged_user.id])
+    print(images)
+    return render(request, 'index.html', {'images':images})
 
 def signup(request):
     '''View function that registers a new user'''
@@ -46,7 +49,36 @@ def upload_image(request):
     return render(request, 'upload_image.html', {"form": form})
 
 @login_required(login_url='login')
-def profile(request, user):
-    profile = Profile.objects.get(user=user)
-    images = Image.objects.filter(profile__user=user).all()
-    return render(request, 'profile.html', {'profile': profile, 'images':images})
+def profile(request, id):
+    profile = Profile.objects.get(id=id)
+    print(id)
+    user = profile.user
+    images = Image.objects.filter(author=user).all()
+    print(images)
+    followers = profile.followers.all()
+    is_following= None
+    for follower in followers:
+        if follower == request.user:
+            is_following = True
+            break
+        else:
+            is_following = False
+    
+    count_followers = len(followers)
+    
+    return render(request, 'profile.html', {'profile': profile, 'images':images, 'user':user,'is_following':is_following,'count_followers':count_followers})
+
+@login_required(login_url='login')
+def AddFollower(request, id):
+    profile = Profile.objects.get(id=id)
+    print(id)
+    profile.followers.add(request.user)
+    
+    return redirect('profile', id=id)
+
+@login_required(login_url='login')
+def DeleteFollower(request, id):
+    profile = Profile.objects.get(id=id)
+    profile.followers.remove(request.user)
+    
+    return redirect('profile', id=id)
