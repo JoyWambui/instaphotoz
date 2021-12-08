@@ -1,0 +1,29 @@
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1 class="text-center">Update</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <form method="POST" class="form-group" enctype="multipart/form-data">
+                <div class="form-group"></div>
+                {% csrf_token %}
+                {{ user_form|crispy }}
+                <hr>
+                {{profile_form|crispy}}
+                <button type="submit" class="btn btn-success btn-lg">Save Changes</button>
+                <button type="reset" class="btn btn-danger btn-lg">Reset</button>           
+            </form>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+</div>
+{% endblock %}

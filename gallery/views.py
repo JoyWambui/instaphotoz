@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from .forms import RegistrationForm,ImageUploadForm,CommentForm
+from .forms import RegistrationForm,ImageUploadForm,CommentForm,UpdateUserForm,UpdateProfileForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from .models import Comment, Profile, Image
@@ -67,6 +67,23 @@ def profile(request, id):
     count_followers = len(followers)
     
     return render(request, 'profile.html', {'profile': profile, 'images':images, 'user':user,'is_following':is_following,'count_followers':count_followers})
+
+@login_required(login_url='login')
+def update_profile(request, id):
+    profile = Profile.objects.get(id=id)
+    if request.method == 'POST':
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+        profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return redirect('profile' ,id=id)
+    else:
+        user_form = UpdateUserForm(instance=request.user)
+        profile_form = UpdateProfileForm(instance=request.user.profile)
+
+    return render(request, 'update_profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 @login_required(login_url='login')
 def AddFollower(request, id):
