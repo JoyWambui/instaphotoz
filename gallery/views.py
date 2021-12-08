@@ -34,7 +34,7 @@ def signup(request):
 
 @login_required(login_url='login')
 def upload_image(request):
-    current_user = request.user.profile
+    current_user = request.user
     
     if request.method == 'POST':
         form = ImageUploadForm(request.POST, request.FILES)
@@ -57,11 +57,18 @@ def update_image(request, id):
         form = UpdateImageForm(request.POST, request.FILES, instance=got_image)
         if form.is_valid():
             form.save()
-        return redirect('profile', id=profile.id)
+        return redirect('profile', id=current_user.id)
 
     else:
         form = ImageUploadForm(instance=got_image)
     return render(request, 'update_image.html', {"form": form})
+
+@login_required(login_url='login')
+def delete_image(request, id):
+    Image.objects.filter(id=id).delete() 
+    return redirect('profile', id=request.user.id)
+
+
 
 @login_required(login_url='login')
 def profile(request, id):

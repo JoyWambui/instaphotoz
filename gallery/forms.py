@@ -15,7 +15,7 @@ class RegistrationForm(UserCreationForm):
 class ImageUploadForm(forms.ModelForm):
       class Meta:
           model= Image
-          exclude = ['author']
+          exclude = ['author','likes']
           
 class CommentForm(forms.ModelForm):
     class Meta:
