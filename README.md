@@ -30,7 +30,7 @@ To view this project:
 
 * Alternatively click on the link that follows:
 
-    [ PICHAZ ](https://pichaz.herokuapp.com/)
+    [ INSTAPHOTOZ ](https://instaphotoz.herokuapp.com/)
 
 
 ### Existing virtualenv
