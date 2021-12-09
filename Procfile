@@ -1,1 +1,1 @@
-web: gunicorn instaphotoz.wsgi --log-file -
+web: gunicorn instaphotoz.wsgi
