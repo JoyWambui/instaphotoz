@@ -3,6 +3,8 @@ from .forms import RegistrationForm,ImageUploadForm,CommentForm,UpdateUserForm,U
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from .models import Comment, Profile, Image
+from django.contrib.auth.models import User
+
 
 
 @login_required(login_url='login')
@@ -30,6 +32,9 @@ def signup(request):
     else:
         form= RegistrationForm()
     title = 'Create Account'
+    if request.user.is_authenticated:
+        return redirect('index')
+    
     return render(request, 'signup.html', {'form': form,'title':title})
 
 @login_required(login_url='login')
@@ -106,6 +111,13 @@ def update_profile(request, id):
         profile_form = UpdateProfileForm(instance=request.user.profile)
 
     return render(request, 'update_profile.html', {'user_form': user_form, 'profile_form': profile_form})
+
+@login_required(login_url='login')
+def delete_profile(request):
+    Profile.objects.filter(id=request.user.id).delete()
+    User.objects.filter(id=request.user.id) .delete()
+    return redirect('login')
+
 
 @login_required(login_url='login')
 def AddFollower(request, id):

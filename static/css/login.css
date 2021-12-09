@@ -1,6 +1,6 @@
 i{
     font-size: 10rem;
-    margin: 0 42%;
+    margin: 0 43%;
 }
 form{
     background: rgba( 255, 255, 255, 0.25 );
@@ -12,8 +12,9 @@ form{
     padding: 4rem;
 }
 body{
-    background: rgb(13,13,113);
-    background: linear-gradient(45deg, rgba(13,13,113,1) 0%, rgba(18,13,96,1) 47%, rgba(0,212,255,1) 100%);
     font-size: 1.5rem;
-    color: #fff;
+    min-height: 100%;
+    background-size: cover;
+    padding: 5%
 }
+

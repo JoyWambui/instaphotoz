@@ -60,7 +60,14 @@
             <p>{{user.username}} has no bio</p>
             {%endif%}
             {% if user == request.user %}
-            <a class="btn btn-info btn-lg text-center" href="{%url 'updateProfile' profile.id%}" role="button">Update Profile</a>
+            <div class="row">
+                <div class="col-sm-6">                    
+                    <a class="btn btn-info btn-lg text-center" href="{%url 'updateProfile' profile.id%}" role="button" style="margin: 0 29%;">Update Profile</a>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-danger btn-lg text-center" href="{%url 'deleteProfile'%}" role="button" style="margin: 0 29%;">Delete Profile</a>
+                </div>
+            </div>
             {%endif%}
         </div>
         <div class="col-sm-2"></div>
