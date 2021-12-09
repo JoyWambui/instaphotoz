@@ -178,3 +178,9 @@ def unlike(request,id):
     image.likes.remove(request.user)
 
     return redirect('imageDetail', id=id)
+
+@login_required(login_url='login')
+def profiles(request):
+    profiles = Profile.objects.all()
+
+    return render(request, 'profiles.html', {'profiles': profiles})
